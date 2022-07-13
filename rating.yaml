@@ -15,6 +15,13 @@ spec:
   selector:
     app: ratings
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: bookinfo-ratings
+  labels:
+    account: ratings
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -34,6 +41,7 @@ spec:
         app: ratings
         version: v1
     spec:
+      serviceAccountName: bookinfo-ratings
       containers:
       - name: ratings
         image: docker.io/istio/examples-bookinfo-ratings-v1:1.16.4
@@ -42,4 +50,3 @@ spec:
         - containerPort: 9080
         securityContext:
           runAsUser: 1000
----
